@@ -8,6 +8,7 @@ import * as Dom from '../../utils/dom.js';
 import * as Fn from '../../utils/fn.js';
 import formatTime from '../../utils/format-time.js';
 import {silencePromise} from '../../utils/promise';
+import {IS_UWP, KeyCodeMapGamePad} from '../../utils/uwp.js';
 
 import './load-progress-bar.js';
 import './play-progress-bar.js';
@@ -377,6 +378,12 @@ class SeekBar extends Slider {
    * @listens keydown
    */
   handleKeyPress(event) {
+    // Handle UMP Apps KeyPress
+    if (IS_UWP && KeyCodeMapGamePad.accept.indexOf(event.which) !== -1) {
+      event.preventDefault();
+      this.handleAction(event);
+      return;
+    }
 
     // Support Space (32) or Enter (13) key operation to fire a click event
     if (event.which === 32 || event.which === 13) {

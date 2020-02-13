@@ -6,6 +6,7 @@ import * as Fn from './utils/fn';
 import Component from './component';
 import window from 'global/window';
 import document from 'global/document';
+import {IS_UWP, KeyCodeMapGamePad} from './utils/uwp.js';
 
 const MODAL_CLASS_NAME = 'vjs-modal-dialog';
 const ESC = 27;
@@ -125,6 +126,10 @@ class ModalDialog extends Component {
    * @listens keydown
    */
   handleKeyPress(e) {
+    // Handle UMP Apps KeyPress
+    if (IS_UWP && KeyCodeMapGamePad.return.indexOf(e.which) !== -1 && this.closeable()) {
+      this.close();
+    }
     if (e.which === ESC && this.closeable()) {
       this.close();
     }
