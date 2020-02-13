@@ -293,15 +293,11 @@ class MenuButton extends Component {
       return;
     }
 
-    // return, left, right key unpress the 'button'
-    if (IS_UWP && (KeyCodeMapGamePad.return.indexOf(event.which) !== -1 ||
-      KeyCodeMapGamePad.left.indexOf(event.which) !== -1 ||
-      KeyCodeMapGamePad.right.indexOf(event.which) !== -1)) {
-      if (!this.buttonPressed_) {
-        this.pressButton();
-        event.preventDefault();
+    // return, key unpress the 'button'
+    if (IS_UWP && KeyCodeMapGamePad.return.indexOf(event.which) !== -1) {
+      if (this.buttonPressed_) {
+        this.unpressButton();
       }
-      // TODO Check this
       event.preventDefault();
       // Set focus back to the menu button's button
       this.menuButton_.el_.focus();
@@ -338,6 +334,16 @@ class MenuButton extends Component {
    * @listens keydown
    */
   handleSubmenuKeyPress(event) {
+    // // Handle UMP Apps KeyPress, return, key unpress the 'button'
+    if (IS_UWP && KeyCodeMapGamePad.return.indexOf(event.which) !== -1) {
+      if (this.buttonPressed_) {
+        this.unpressButton();
+      }
+      event.preventDefault();
+      // Set focus back to the menu button's button
+      this.menuButton_.el_.focus();
+      return;
+    }
 
     // Escape (27) key or Tab (9) key unpress the 'button'
     if (event.which === 27 || event.which === 9) {

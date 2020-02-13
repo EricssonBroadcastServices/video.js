@@ -132,15 +132,13 @@ class Menu extends Component {
    * @listens keydown
    */
   handleKeyPress(event) {
-    // Handle UMP Apps KeyPress Left and Down Arrows
-    if (IS_UWP && (KeyCodeMapGamePad.left.indexOf(event.which) !== -1 ||
-      KeyCodeMapGamePad.down.indexOf(event.which) !== -1)) {
+    // Handle UMP Apps Down Arrows
+    if (IS_UWP && KeyCodeMapGamePad.down.indexOf(event.which) !== -1) {
       event.preventDefault();
       this.stepForward();
       return;
-    // Up and Right Arrows
-    } else if (IS_UWP && (KeyCodeMapGamePad.right.indexOf(event.which) !== -1 ||
-      KeyCodeMapGamePad.up.indexOf(event.which) !== -1)) {
+    // Up Arrows
+    } else if (IS_UWP && KeyCodeMapGamePad.up.indexOf(event.which) !== -1) {
       event.preventDefault();
       this.stepBack();
       return;
