@@ -5,6 +5,7 @@ import Component from '../component.js';
 import * as Dom from '../utils/dom.js';
 import {assign} from '../utils/obj';
 import {IS_CHROME} from '../utils/browser.js';
+import {IS_UWP, KeyCodeMapGamePad} from '../utils/uwp.js';
 
 /**
  * The base functionality for a slider. Can be vertical or horizontal.
@@ -315,6 +316,20 @@ class Slider extends Component {
    * @listens keydown
    */
   handleKeyPress(event) {
+    // Handle UMP Apps KeyPress Left and Down Arrows
+    if (IS_UWP && (KeyCodeMapGamePad.left.indexOf(event.which) !== -1 ||
+      KeyCodeMapGamePad.down.indexOf(event.which) !== -1)) {
+      event.preventDefault();
+      this.stepBack();
+      return;
+      // Up and Right Arrows
+    } else if (IS_UWP && (KeyCodeMapGamePad.right.indexOf(event.which) !== -1 ||
+      KeyCodeMapGamePad.up.indexOf(event.which) !== -1)) {
+      event.preventDefault();
+      this.stepForward();
+      return;
+    }
+
     // Left and Down Arrows
     if (event.which === 37 || event.which === 40) {
       event.preventDefault();

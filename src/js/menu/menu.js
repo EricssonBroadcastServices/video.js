@@ -6,6 +6,7 @@ import document from 'global/document';
 import * as Dom from '../utils/dom.js';
 import * as Fn from '../utils/fn.js';
 import * as Events from '../utils/events.js';
+import {IS_UWP, KeyCodeMapGamePad} from '../utils/uwp.js';
 
 /**
  * The Menu component is used to build popup menus, including subtitle and
@@ -131,6 +132,18 @@ class Menu extends Component {
    * @listens keydown
    */
   handleKeyPress(event) {
+    // Handle UMP Apps Down Arrows
+    if (IS_UWP && KeyCodeMapGamePad.down.indexOf(event.which) !== -1) {
+      event.preventDefault();
+      this.stepForward();
+      return;
+    // Up Arrows
+    } else if (IS_UWP && KeyCodeMapGamePad.up.indexOf(event.which) !== -1) {
+      event.preventDefault();
+      this.stepBack();
+      return;
+    }
+
     // Left and Down Arrows
     if (event.which === 37 || event.which === 40) {
       event.preventDefault();

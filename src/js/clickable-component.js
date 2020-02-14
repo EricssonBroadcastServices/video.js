@@ -8,6 +8,7 @@ import * as Fn from './utils/fn.js';
 import log from './utils/log.js';
 import document from 'global/document';
 import {assign} from './utils/obj';
+import {IS_UWP, KeyCodeMapGamePad} from './utils/uwp.js';
 
 /**
  * Clickable Component which is clickable or keyboard actionable,
@@ -224,6 +225,11 @@ class ClickableComponent extends Component {
    * @listens keydown
    */
   handleKeyPress(event) {
+    // Handle UMP Apps KeyPress
+    if (IS_UWP && KeyCodeMapGamePad.accept.indexOf(event.which) !== -1) {
+      event.preventDefault();
+      this.trigger('click');
+    }
 
     // Support Space (32) or Enter (13) key operation to fire a click event
     if (event.which === 32 || event.which === 13) {

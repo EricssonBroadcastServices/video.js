@@ -10,6 +10,7 @@ import * as Events from '../utils/events.js';
 import toTitleCase from '../utils/to-title-case.js';
 import { IS_IOS } from '../utils/browser.js';
 import document from 'global/document';
+import { IS_UWP, KeyCodeMapGamePad } from '../utils/uwp.js';
 
 /**
  * A `MenuButton` class for any popup {@link Menu}.
@@ -281,6 +282,27 @@ class MenuButton extends Component {
    * @listens keydown
    */
   handleKeyPress(event) {
+    // Handle UMP Apps KeyPress, Enter (13) or Up (38) key or Down (40) key press the 'button'
+    if (IS_UWP && (KeyCodeMapGamePad.accept.indexOf(event.which) !== -1 ||
+      KeyCodeMapGamePad.down.indexOf(event.which) !== -1 ||
+      KeyCodeMapGamePad.up.indexOf(event.which) !== -1)) {
+      if (!this.buttonPressed_) {
+        this.pressButton();
+        event.preventDefault();
+      }
+      return;
+    }
+
+    // return, key unpress the 'button'
+    if (IS_UWP && KeyCodeMapGamePad.return.indexOf(event.which) !== -1) {
+      if (this.buttonPressed_) {
+        this.unpressButton();
+      }
+      event.preventDefault();
+      // Set focus back to the menu button's button
+      this.menuButton_.el_.focus();
+      return;
+    }
 
     // Escape (27) key or Tab (9) key unpress the 'button'
     if (event.which === 27 || event.which === 9) {
@@ -312,6 +334,16 @@ class MenuButton extends Component {
    * @listens keydown
    */
   handleSubmenuKeyPress(event) {
+    // // Handle UMP Apps KeyPress, return, key unpress the 'button'
+    if (IS_UWP && KeyCodeMapGamePad.return.indexOf(event.which) !== -1) {
+      if (this.buttonPressed_) {
+        this.unpressButton();
+      }
+      event.preventDefault();
+      // Set focus back to the menu button's button
+      this.menuButton_.el_.focus();
+      return;
+    }
 
     // Escape (27) key or Tab (9) key unpress the 'button'
     if (event.which === 27 || event.which === 9) {

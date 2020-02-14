@@ -34,3 +34,12 @@ es5/*
 .idea/
 
 core.js
+
+# Ignore Visual Studio files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.sln
+Web.config
+applicationhost.config

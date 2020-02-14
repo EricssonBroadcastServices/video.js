@@ -5,6 +5,7 @@ import ClickableComponent from './clickable-component.js';
 import Component from './component';
 import log from './utils/log.js';
 import {assign} from './utils/obj';
+import {IS_UWP, KeyCodeMapGamePad} from './utils/uwp.js';
 
 /**
  * Base class for all buttons.
@@ -104,6 +105,11 @@ class Button extends ClickableComponent {
    * @listens keydown
    */
   handleKeyPress(event) {
+    // Handle UMP Apps KeyPress
+    if (IS_UWP && KeyCodeMapGamePad.accept.indexOf(event.which) !== -1) {
+      super.handleKeyPress(event);
+      return;
+    }
 
     // Ignore Space (32) or Enter (13) key operation, which is handled by the browser for a button.
     if (event.which === 32 || event.which === 13) {
