@@ -52,6 +52,8 @@ export const KeyCodeMapGamePad = {
     139
   ],
   accept: [
+    // Space
+    32,
     // Enter
     13,
     // NavigationAccept

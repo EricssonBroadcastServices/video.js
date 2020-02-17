@@ -229,6 +229,7 @@ class ClickableComponent extends Component {
     if (IS_UWP && KeyCodeMapGamePad.accept.indexOf(event.which) !== -1) {
       event.preventDefault();
       this.trigger('click');
+      return;
     }
 
     // Support Space (32) or Enter (13) key operation to fire a click event
