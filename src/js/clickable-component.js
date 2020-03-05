@@ -30,6 +30,8 @@ class ClickableComponent extends Component {
   constructor(player, options) {
     super(player, options);
 
+    this.boundHandleKeyPress_ = Fn.bind(this, this.handleKeyPress);
+
     this.emitTapEvents();
 
     this.enable();
@@ -76,6 +78,11 @@ class ClickableComponent extends Component {
   }
 
   dispose() {
+    // Bail out if the component has already been disposed.
+    if (this.isDisposed_) {
+      return;
+    }
+    Events.off(document, 'keydown', this.boundHandleKeyPress_);
     // remove controlTextEl_ on dispose
     this.controlTextEl_ = null;
 
@@ -212,7 +219,7 @@ class ClickableComponent extends Component {
    * @listens focus
    */
   handleFocus(event) {
-    Events.on(document, 'keydown', Fn.bind(this, this.handleKeyPress));
+    Events.on(document, 'keydown', this.boundHandleKeyPress_);
   }
 
   /**
@@ -253,7 +260,7 @@ class ClickableComponent extends Component {
    * @listens blur
    */
   handleBlur(event) {
-    Events.off(document, 'keydown', Fn.bind(this, this.handleKeyPress));
+    Events.off(document, 'keydown', this.boundHandleKeyPress_);
   }
 }
 

@@ -58,6 +58,8 @@ class Component {
       this.player_ = player;
     }
 
+    this.isDisposed_ = false;
+
     // Hold the reference to the parent component via `addChild` method
     this.parentComponent_ = null;
 
@@ -119,6 +121,11 @@ class Component {
    */
   dispose() {
 
+    // Bail out if the component has already been disposed.
+    if (this.isDisposed_) {
+      return;
+    }
+
     /**
      * Triggered when a `Component` is disposed.
      *
@@ -130,6 +137,8 @@ class Component {
      *           bubble up
      */
     this.trigger({type: 'dispose', bubbles: false});
+
+    this.isDisposed_ = true;
 
     // Dispose all children.
     if (this.children_) {
@@ -159,6 +168,16 @@ class Component {
 
     // remove reference to the player after disposing of the element
     this.player_ = null;
+  }
+
+  /**
+   * Determine whether or not this component has been disposed.
+   *
+   * @return {boolean}
+   *         If the component has been disposed, will be `true`. Otherwise, `false`.
+   */
+  isDisposed() {
+    return Boolean(this.isDisposed_);
   }
 
   /**

@@ -31,6 +31,8 @@ class MenuButton extends Component {
   constructor(player, options = {}) {
     super(player, options);
 
+    this.boundHandleKeyPress_ = Fn.bind(this, this.handleKeyPress);
+
     this.menuButton_ = new Button(player, options);
 
     this.menuButton_.controlText(this.controlText_);
@@ -86,6 +88,16 @@ class MenuButton extends Component {
     } else {
       this.show();
     }
+  }
+
+  dispose() {
+    // Bail out if the component has already been disposed.
+    if (this.isDisposed_) {
+      return;
+    }
+    Events.off(document, 'keydown', this.boundHandleKeyPress_);
+
+    super.dispose();
   }
 
   /**
@@ -256,7 +268,7 @@ class MenuButton extends Component {
    * @listens focus
    */
   handleFocus() {
-    Events.on(document, 'keydown', Fn.bind(this, this.handleKeyPress));
+    Events.on(document, 'keydown', this.boundHandleKeyPress_);
   }
 
   /**
@@ -269,7 +281,7 @@ class MenuButton extends Component {
    * @listens blur
    */
   handleBlur() {
-    Events.off(document, 'keydown', Fn.bind(this, this.handleKeyPress));
+    Events.off(document, 'keydown', this.boundHandleKeyPress_);
   }
 
   /**

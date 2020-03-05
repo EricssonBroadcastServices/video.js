@@ -230,6 +230,9 @@ export function prependTo(child, parent) {
  *         Throws an error if `classToCheck` has white space.
  */
 export function hasClass(element, classToCheck) {
+  if (!element) {
+    return false;
+  }
   throwIfWhitespace(classToCheck);
   if (element.classList) {
     return element.classList.contains(classToCheck);
@@ -250,6 +253,9 @@ export function hasClass(element, classToCheck) {
  *         The DOM element with the added class name.
  */
 export function addClass(element, classToAdd) {
+  if (!element) {
+    return;
+  }
   if (element.classList) {
     element.classList.add(classToAdd);
 
@@ -275,6 +281,9 @@ export function addClass(element, classToAdd) {
  *         The DOM element with class name removed.
  */
 export function removeClass(element, classToRemove) {
+  if (!element) {
+    return;
+  }
   if (element.classList) {
     element.classList.remove(classToRemove);
   } else {
