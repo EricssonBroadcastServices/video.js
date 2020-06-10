@@ -186,8 +186,16 @@ class Menu extends Component {
    * @param {Object|string} [item=0]
    *        Index of child item set focus on.
    */
-  focus(item = 0) {
-    const children = this.children().slice();
+  focus(item) {
+    const children = [];
+
+    // Only selectable children
+    for (let i = 0; i < this.children().length; i++) {
+      if (this.children()[i].selectable) {
+        children.push(this.children()[i]);
+      }
+    }
+
     const haveTitle = children.length && children[0].className &&
       (/vjs-menu-title/).test(children[0].className);
 
@@ -196,6 +204,17 @@ class Menu extends Component {
     }
 
     if (children.length > 0) {
+      if (item === undefined) {
+        item = 0;
+        // Find Selected item
+        for (let i = 0; i < children.length; i++) {
+          if (children[i].isSelected_) {
+            item = i;
+            break;
+          }
+        }
+      }
+
       if (item < 0) {
         item = 0;
       } else if (item >= children.length) {
