@@ -155,7 +155,7 @@
     "videojs-languages": "^2.0.0",
     "videojs-standard": "^8.0.2",
     "watchify": "^3.11.0",
-    "webpack": "^1.15.0"
+    "webpack": "^5.82.0"
   },
   "vjsstandard": {
     "ignore": [
